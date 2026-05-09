@@ -10,4 +10,6 @@ class AppRoutes {
   static const String newsDetailsView = '/newsDetailsView';
   static const String searchView = '/searchView';
   static const String profileView = '/profileView';
+
+  static const String loginScreen = '/loginScreen';
 }
