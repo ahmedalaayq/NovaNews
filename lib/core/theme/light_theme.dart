@@ -127,7 +127,7 @@ ThemeData lightTheme = ThemeData(
   // ),
   iconTheme: IconThemeData(color: Color(0xFF161F1B)),
   navigationBarTheme: NavigationBarThemeData(
-    backgroundColor: LightAppColors.whitebgColor,
+    backgroundColor: LightAppColors.whiteBgColor,
     indicatorColor: LightAppColors.primaryColor.withValues(
       alpha: 0.2,
     ),
