@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nova_news/Features/home/controller/home_controller.dart';
 import 'package:nova_news/core/extension/shared_extension.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
 import 'package:nova_news/core/utils/utils.dart';
+import 'package:nova_news/core/widgets/custom_cached_network_image.dart';
 import 'package:nova_news/core/widgets/gradient_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:redacted/redacted.dart';
@@ -34,15 +34,10 @@ class CustomNewstTrendingList extends StatelessWidget {
               child: Stack(
                 children: [
                   article.urlToImage != null
-                      ? CachedNetworkImage(
+                      ? CustomCachedNetworkImage(
                           width: 300,
-
-                          imageUrl: article.urlToImage ?? placeholderNetworkImage,
-                          errorWidget: (context, url, error) {
-                            return Image.network(placeholderNetworkImage);
-                          },
                           fit: .fill,
-                          fadeInCurve: Curves.easeInOut,
+                          imageUrl: article.urlToImage ?? placeholderNetworkImage,
                           height: 240,
                         ).redacted(redact: true, context: context)
                       : Image.network(placeholderNetworkImage, fit: .fill),

@@ -9,8 +9,6 @@ import 'package:nova_news/core/enums/request_status_enum.dart';
 import 'package:nova_news/core/extension/shared_extension.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
-
 import '../category_view.dart';
 
 class HomeViewBody extends StatelessWidget {

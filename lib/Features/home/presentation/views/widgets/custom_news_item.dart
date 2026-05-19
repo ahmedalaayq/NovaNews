@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nova_news/Features/home/models/article_model.dart';
 import 'package:nova_news/core/extension/shared_extension.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
 import 'package:nova_news/core/utils/assets.dart';
+import 'package:nova_news/core/widgets/custom_cached_network_image.dart';
 
 class CustomNewsItem extends StatelessWidget {
   const CustomNewsItem({super.key, required this.model});
@@ -15,21 +15,17 @@ class CustomNewsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final author = model.author ?? "No Author";
     const placeholderNetworkImage =
         'https://aideplus.com/wp-content/uploads/2017/09/image_large.png';
-
-    final author = model.author ?? "No Author";
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              height: 70,
-              width: 122,
+            child: CustomCachedNetworkImage(
+              fit: .cover,
               imageUrl: model.urlToImage ?? placeholderNetworkImage,
             ),
           ),
