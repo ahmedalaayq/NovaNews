@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/Features/splash/controller/splash_controller.dart';
+import 'package:provider/provider.dart';
+
 import 'widgets/splash_view_body.dart';
 
 class SplashView extends StatefulWidget {
@@ -10,15 +12,12 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-  late SplashController controller;
-
   @override
   void initState() {
-    super.initState();
-    controller = SplashController();
-    WidgetsBinding.instance.addPostFrameCallback((state) {
-      controller.executeNavigation(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SplashController>().executeNavigation(context);
     });
+    super.initState();
   }
 
   @override

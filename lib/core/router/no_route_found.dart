@@ -61,7 +61,9 @@ class NoRouteFound extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -70,12 +72,12 @@ class NoRouteFound extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        AppRoutes.homeView,
+                        AppRoutes.mainView,
                         (route) => false,
                       );
                     },
                     child: const Text(
-                      "Go To Home",
+                      "Go To Main",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

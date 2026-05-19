@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:nova_news/Features/onboarding/controller/onboarding_controller.dart';
 import 'package:nova_news/Features/onboarding/models/onboarding_model.dart';
-import 'package:nova_news/core/theme/app_colors.dart';
+import 'package:nova_news/core/theme/light_app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -32,7 +30,7 @@ class OnboardingViewBody extends StatelessWidget {
             onDotClicked: controller.onDotClicked,
             effect: WormEffect(
               dotColor: const Color(0xFFD3D3D3),
-              activeDotColor: AppColors.primaryColor,
+              activeDotColor: LightAppColors.primaryColor,
               dotHeight: 12,
               dotWidth: 12,
             ),
@@ -47,11 +45,10 @@ class OnboardingViewBody extends StatelessWidget {
                   OnboardingController value,
                   Widget? child,
                 ) {
-
                   return ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      backgroundColor: AppColors.primaryColor,
+                      backgroundColor: LightAppColors.primaryColor,
                       foregroundColor: Colors.white,
                       minimumSize: const Size(double.infinity, 55),
                       shape: RoundedRectangleBorder(

@@ -2,6 +2,7 @@ class AppRoutes {
   static const String noRouteFoundView = '/noRouteFoundView';
   static const String splashView = '/splashView';
   static const String onboardingView = '/onboardingView';
+  static const String mainView = '/mainView';
   static const String loginView = '/loginView';
   static const String registerView = '/registerView';
   static const String homeView = '/homeView';
@@ -10,6 +11,4 @@ class AppRoutes {
   static const String newsDetailsView = '/newsDetailsView';
   static const String searchView = '/searchView';
   static const String profileView = '/profileView';
-
-  static const String loginScreen = '/loginScreen';
 }

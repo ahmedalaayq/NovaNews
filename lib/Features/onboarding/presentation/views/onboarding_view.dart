@@ -14,9 +14,7 @@ class OnboardingView extends StatelessWidget {
       child: Scaffold(
         extendBody: true,
         backgroundColor: const Color(0xFFF5F5F5),
-        body: const SafeArea(
-          child: OnboardingViewBody(),
-        ),
+        body: const SafeArea(child: OnboardingViewBody()),
       ),
     );
   }

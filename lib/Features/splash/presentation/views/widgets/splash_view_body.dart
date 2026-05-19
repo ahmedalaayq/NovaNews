@@ -6,9 +6,9 @@ class SplashViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-        fit: .fill,
-        width: double.infinity,
-        'assets/images/splash.png',
-      );
+      fit: .fill,
+      width: double.infinity,
+      'assets/images/splash.png',
+    );
   }
 }

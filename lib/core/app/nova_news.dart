@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nova_news/core/router/app_routes.dart';
+import 'package:nova_news/core/theme/light_theme.dart';
 import '../router/on_generate_route.dart';
 
 class NovaNews extends StatelessWidget {
@@ -22,6 +23,7 @@ class NovaNews extends StatelessWidget {
       title: 'NovaNews',
       onGenerateRoute: onGenerateRoute,
       initialRoute: AppRoutes.splashView,
+      theme: lightTheme,
     );
   }
 }

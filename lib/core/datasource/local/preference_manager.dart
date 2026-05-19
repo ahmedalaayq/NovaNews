@@ -1,7 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceManager {
-  static final PreferenceManager _instance = PreferenceManager._internal();
+  static final PreferenceManager _instance =
+      PreferenceManager._internal();
 
   factory PreferenceManager() => _instance;
 
@@ -39,11 +40,11 @@ class PreferenceManager {
     return null;
   }
 
-  static  Future<void> removeKey(String key) async {
+  static Future<void> removeKey(String key) async {
     await _pref.remove(key);
   }
 
-  static  Future<void> clearPrefs() async {
+  static Future<void> clearPrefs() async {
     await _pref.clear();
   }
 }

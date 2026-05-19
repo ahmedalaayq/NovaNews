@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/Features/onboarding/models/onboarding_model.dart';
+import 'package:nova_news/core/datasource/local/preference_manager.dart';
+import 'package:nova_news/core/datasource/local/storage_key.dart';
 import 'package:nova_news/core/router/app_routes.dart';
 
 class OnboardingController with ChangeNotifier {
@@ -19,9 +21,10 @@ class OnboardingController with ChangeNotifier {
   bool get isLastPage =>
       currentIndex == OnboardingModel.onboardingItems.length - 1;
 
-  void handleNextButton(BuildContext context) {
+  void handleNextButton(BuildContext context) async {
     if (isLastPage) {
       Navigator.pushReplacementNamed(context, AppRoutes.homeView);
+      await savedPrefs();
     } else {
       pageController.nextPage(
         duration: const Duration(milliseconds: 500),
@@ -38,13 +41,18 @@ class OnboardingController with ChangeNotifier {
     );
   }
 
-  void skip(BuildContext context) {
+  void skip(BuildContext context) async {
     Navigator.pushReplacementNamed(context, AppRoutes.homeView);
+    await savedPrefs();
   }
 
   @override
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+
+  Future<void> savedPrefs() async {
+    await PreferenceManager.setData(StorageKey.onboarding, true);
   }
 }
