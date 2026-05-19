@@ -120,7 +120,7 @@ class _LoginFormState extends State<LoginForm> {
                     buttonText: 'Sign In',
                     child: value
                         ? LoadingAnimationWidget.staggeredDotsWave(
-                            color: LightAppColors.whitebgColor,
+                            color: LightAppColors.whiteBgColor,
                             size: 20,
                           )
                         : Text('Sign In'),

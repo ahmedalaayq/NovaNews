@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:nova_news/core/datasource/remote/api_config.dart';
 import 'package:nova_news/core/enums/request_status_enum.dart';
@@ -16,6 +18,7 @@ class HomeController with ChangeNotifier {
   List<ArticleModel> everythingNewsList = [];
   String? errorMessage;
   late ApiService apiService;
+  static const String topNews = 'top news';
 
   static final List<String> categories = [
     'top news',
@@ -27,7 +30,7 @@ class HomeController with ChangeNotifier {
     'sports',
     'technology',
   ];
-  String selectedCategory = '';
+  String selectedCategory = topNews;
   RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
   RequestStatusEnum topHeadlinesStatus = RequestStatusEnum.loading;
 
@@ -62,10 +65,7 @@ class HomeController with ChangeNotifier {
 
     dynamic response;
     try {
-      response = await apiService.get(
-        endPoint: ApiConfig.everything,
-        params: {"q": "technology"},
-      );
+      response = await apiService.get(endPoint: ApiConfig.everything, params: {"q": "technology"});
 
       everythingStatus = RequestStatusEnum.loaded;
       everythingNewsList = (response['articles'] as List<dynamic>)
@@ -82,6 +82,12 @@ class HomeController with ChangeNotifier {
 
   void onSelectedCategory(String category) {
     selectedCategory = category;
+
+    if (category.toLowerCase() == topNews) {
+      notifyListeners();
+      return;
+    }
+
     getTopHeadlines(category: category);
     notifyListeners();
   }

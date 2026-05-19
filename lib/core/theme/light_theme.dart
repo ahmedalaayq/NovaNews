@@ -159,7 +159,7 @@ ThemeData lightTheme = ThemeData(
     }),
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(
-    color: LightAppColors.whitebgColor,
+    color: LightAppColors.whiteBgColor,
   ),
 );
 OutlineInputBorder _buildFieldBorder({Color? color, double? width}) {

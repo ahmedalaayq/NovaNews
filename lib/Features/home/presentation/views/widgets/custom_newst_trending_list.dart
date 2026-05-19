@@ -86,7 +86,7 @@ class CustomNewstTrendingList extends StatelessWidget {
                                 Text(
                                   article.source.name ?? "CNN News",
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: LightAppColors.whitebgColor,
+                                    color: LightAppColors.whiteBgColor,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -97,7 +97,7 @@ class CustomNewstTrendingList extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 fontSize: 16,
                                 fontWeight: .bold,
-                                color: LightAppColors.whitebgColor,
+                                color: LightAppColors.whiteBgColor,
                               ),
                             ),
                           ],

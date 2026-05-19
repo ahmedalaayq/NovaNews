@@ -13,7 +13,7 @@ class CustomTileText extends StatelessWidget {
       style:
           style ??
           Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: LightAppColors.whitebgColor,
+            color: LightAppColors.whiteBgColor,
             fontSize: 16,
             fontWeight: .bold,
           ),

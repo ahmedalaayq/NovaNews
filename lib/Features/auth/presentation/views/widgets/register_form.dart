@@ -144,7 +144,7 @@ class RegisterForm extends StatelessWidget {
                 buttonText: 'Sign Up',
                 child: controller.isLoading
                     ? LoadingAnimationWidget.staggeredDotsWave(
-                        color: LightAppColors.whitebgColor,
+                        color: LightAppColors.whiteBgColor,
                         size: 20,
                       )
                     : Text('Sign Up'),

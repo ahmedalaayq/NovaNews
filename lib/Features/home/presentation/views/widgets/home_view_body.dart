@@ -33,9 +33,15 @@ class HomeViewBody extends StatelessWidget {
                     child: ViewAllComponenet(
                       title: 'Categories',
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ChangeNotifierProvider.value(
-                            value: controller,
-                            child: CategoryView())));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangeNotifierProvider.value(
+                              value: controller,
+                              child: CategoryView(),
+                            ),
+                          ),
+                        );
                       },
                       color: const Color(0xFF141414),
                     ),

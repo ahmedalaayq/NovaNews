@@ -33,6 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^6.0.1
+  flutter_launcher_icons: ^0.14.4
   flutter_svg: ^2.3.0
   http: ^1.6.0
   iconly: ^1.0.1

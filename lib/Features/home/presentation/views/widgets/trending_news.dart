@@ -52,7 +52,7 @@ class TrendingNews extends StatelessWidget {
                               controller.errorMessage!,
                               style: Theme.of(
                                 context,
-                              ).textTheme.titleMedium?.copyWith(color: LightAppColors.whitebgColor),
+                              ).textTheme.titleMedium?.copyWith(color: LightAppColors.whiteBgColor),
                             ),
                           ),
                         );
