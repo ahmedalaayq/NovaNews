@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nova_news/Features/onboarding/controller/onboarding_controller.dart';
 import 'package:nova_news/Features/onboarding/models/onboarding_model.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:provider/provider.dart';
 
 class OnboardingPageView extends StatelessWidget {
@@ -19,43 +20,44 @@ class OnboardingPageView extends StatelessWidget {
             final item = OnboardingModel.onboardingItems[index];
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.w(16)),
               child: Column(
                 children: [
                   Align(
                     alignment: Alignment.centerRight,
                     child: controller.isLastPage
-                        ? const SizedBox(height: 48)
+                        ?   SizedBox(height: AppSizes.h(48))
                         : TextButton(
                             onPressed: () => controller.skip(context),
                             child: Text(
                               'Skip',
                               style: TextStyle(
                                 color: LightAppColors.primaryColor,
-                                fontSize: 14,
+                                fontSize: AppSizes.sp(14),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
                   ),
 
-                  const SizedBox(height: 20),
+                   SizedBox(height: AppSizes.h(20)),
 
                   Expanded(
                     child: Image.asset(
                       item.image,
                       fit: BoxFit.contain,
+
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                   SizedBox(height: AppSizes.h(24)),
 
                   Text(
                     item.title,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: Color(0xFF4E4B66),
-                      fontSize: 24,
+                      fontSize: AppSizes.sp(20),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -65,15 +67,15 @@ class OnboardingPageView extends StatelessWidget {
                   Text(
                     item.subTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style:  TextStyle(
+                      fontSize: AppSizes.sp(16),
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF6E7191),
                       height: 1.5,
                     ),
                   ),
 
-                  const SizedBox(height: 40),
+                  SizedBox(height: AppSizes.h(40)),
                 ],
               ),
             );

@@ -15,12 +15,12 @@ extension DateTimeFormatter on DateTime {
     final Duration diff = DateTime.now().difference(this);
 
     if (diff.inSeconds < 60) {
-      return '${diff.inSeconds} seconds ago';
+      return '${diff.inSeconds}s ago';
     } else if (diff.inMinutes < 60) {
-      return '${diff.inMinutes} minutes ago';
+      return '${diff.inMinutes}m ago';
     } else if (diff.inHours < 24) {
-      return '${diff.inHours} hours ago';
+      return '${diff.inHours}h ago';
     }
-    return '${diff.inDays} days ago';
+    return '${diff.inDays}d ago';
   }
 }

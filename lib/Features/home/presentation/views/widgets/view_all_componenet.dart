@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/Features/home/presentation/views/widgets/custom_tile_text.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 
 class ViewAllComponenet extends StatelessWidget {
   const ViewAllComponenet({
@@ -31,7 +32,7 @@ class ViewAllComponenet extends StatelessWidget {
             text: 'View all',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: color ?? LightAppColors.whiteBgColor,
-              fontSize: 16,
+              fontSize: AppSizes.sp(16),
               fontWeight: .w400,
               decoration: .underline,
               decorationColor: color ?? LightAppColors.whiteBgColor,

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nova_news/Features/onboarding/models/onboarding_model.dart';
 import 'package:nova_news/core/datasource/local/preference_manager.dart';
 import 'package:nova_news/core/datasource/local/storage_key.dart';
+import 'package:nova_news/core/mixins/safe_notify_mixin.dart';
 import 'package:nova_news/core/router/app_routes.dart';
 
-class OnboardingController with ChangeNotifier {
+class OnboardingController with ChangeNotifier ,SafeNotifyMixin{
   late final PageController pageController;
 
   int currentIndex = 0;
@@ -15,7 +16,7 @@ class OnboardingController with ChangeNotifier {
 
   void onPageChanged(int index) {
     currentIndex = index;
-    notifyListeners();
+    safeNotify();
   }
 
   bool get isLastPage =>
@@ -23,7 +24,7 @@ class OnboardingController with ChangeNotifier {
 
   void handleNextButton(BuildContext context) async {
     if (isLastPage) {
-      Navigator.pushReplacementNamed(context, AppRoutes.homeView);
+      Navigator.pushReplacementNamed(context, AppRoutes.loginView);
       await savedPrefs();
     } else {
       pageController.nextPage(
@@ -42,7 +43,7 @@ class OnboardingController with ChangeNotifier {
   }
 
   void skip(BuildContext context) async {
-    Navigator.pushReplacementNamed(context, AppRoutes.homeView);
+    Navigator.pushReplacementNamed(context, AppRoutes.loginView);
     await savedPrefs();
   }
 

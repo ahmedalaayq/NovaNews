@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nova_news/Features/onboarding/controller/onboarding_controller.dart';
 import 'package:nova_news/Features/onboarding/models/onboarding_model.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -22,7 +23,7 @@ class OnboardingViewBody extends StatelessWidget {
         children: [
           const Expanded(child: OnboardingPageView()),
 
-          const SizedBox(height: 24),
+          SizedBox(height: AppSizes.h(24)),
 
           SmoothPageIndicator(
             controller: controller.pageController,
@@ -31,12 +32,12 @@ class OnboardingViewBody extends StatelessWidget {
             effect: WormEffect(
               dotColor: const Color(0xFFD3D3D3),
               activeDotColor: LightAppColors.primaryColor,
-              dotHeight: 12,
-              dotWidth: 12,
+              dotHeight: AppSizes.h(10),
+              dotWidth: AppSizes.w(10),
             ),
           ),
 
-          const SizedBox(height: 32),
+           SizedBox(height: AppSizes.h(32)),
 
           Consumer<OnboardingController>(
             builder:
@@ -59,8 +60,8 @@ class OnboardingViewBody extends StatelessWidget {
                         controller.handleNextButton(context),
                     child: Text(
                       value.isLastPage ? 'Get Started' : 'Next',
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style:  TextStyle(
+                        fontSize: AppSizes.sp(16),
                         fontWeight: FontWeight.w600,
                       ),
                     ),

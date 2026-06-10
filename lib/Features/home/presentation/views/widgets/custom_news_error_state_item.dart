@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/Features/home/controller/home_controller.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:provider/provider.dart';
 class CustomNewsErrorStateItem extends StatelessWidget {
   const CustomNewsErrorStateItem({super.key});
@@ -9,20 +10,22 @@ class CustomNewsErrorStateItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeController>(
       builder: (BuildContext context, controller, Widget? child) {
-        return Center(
+        return SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30,
+            padding:  EdgeInsets.symmetric(
+              horizontal: AppSizes.w(30),
             ),
 
             child: Column(
+              mainAxisSize: .min,
               mainAxisAlignment:
               MainAxisAlignment.center,
 
               children: [
                 Container(
-                  height: 120,
-                  width: 120,
+                  height: AppSizes.h(120),
+                  width: AppSizes.w(120),
 
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -32,13 +35,13 @@ class CustomNewsErrorStateItem extends StatelessWidget {
 
                   child: Icon(
                     Icons.newspaper_rounded,
-                    size: 60,
+                    size: AppSizes.r(60),
                     color:
                     LightAppColors.primaryColor,
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: AppSizes.h(16)),
 
                 Text(
                   controller.topHeadlineNewsList
@@ -57,7 +60,7 @@ class CustomNewsErrorStateItem extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                 SizedBox(height: AppSizes.h(12)),
 
                 Text(
                   controller.topHeadlineNewsList
@@ -77,11 +80,11 @@ class CustomNewsErrorStateItem extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                 SizedBox(height: AppSizes.h(30)),
 
                 SizedBox(
-                  width: 170,
-                  height: 50,
+                  width: AppSizes.w(170),
+                  height: AppSizes.h(50),
 
                   child: ElevatedButton.icon(
                     onPressed: () async {
@@ -103,7 +106,7 @@ class CustomNewsErrorStateItem extends StatelessWidget {
                       RoundedRectangleBorder(
                         borderRadius:
                         BorderRadius.circular(
-                          14,
+                          AppSizes.r(14),
                         ),
                       ),
                     ),

@@ -1,23 +1,35 @@
-import 'dart:developer';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:nova_news/core/datasource/remote/api_config.dart';
+import 'package:nova_news/Features/home/repos/news_repository.dart';
+import 'package:nova_news/core/datasource/local/preference_manager.dart';
+import 'package:nova_news/core/datasource/local/storage_key.dart';
 import 'package:nova_news/core/enums/request_status_enum.dart';
+import 'package:nova_news/core/mixins/safe_notify_mixin.dart';
 
-import '../../../core/datasource/remote/api_service.dart';
 import '../models/article_model.dart';
 
-class HomeController with ChangeNotifier {
-  void init() {
-    apiService = ApiService();
-    getTopHeadlines();
-    getEverything();
+class HomeController with ChangeNotifier,SafeNotifyMixin {
+  HomeController({required this.newsRepo});
+  final NewsRepository newsRepo;
+
+  Future<void> init() async {
+
+    loadBookmarks();
+
+    await Future.wait([getTopHeadlines(), getEverything()]);
   }
 
   List<ArticleModel> topHeadlineNewsList = [];
   List<ArticleModel> everythingNewsList = [];
+
+  List<ArticleModel> savedBookMarks = [];
+
   String? errorMessage;
-  late ApiService apiService;
+
+  RequestStatusEnum topHeadlinesStatus = RequestStatusEnum.loading;
+
+  RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
+
   static const String topNews = 'top news';
 
   static final List<String> categories = [
@@ -30,65 +42,104 @@ class HomeController with ChangeNotifier {
     'sports',
     'technology',
   ];
+
   String selectedCategory = topNews;
-  RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
-  RequestStatusEnum topHeadlinesStatus = RequestStatusEnum.loading;
+
 
   Future<void> getTopHeadlines({String? category}) async {
     errorMessage = null;
-    topHeadlinesStatus = .loading;
-    notifyListeners();
+    topHeadlinesStatus = RequestStatusEnum.loading;
+    safeNotify();
 
-    dynamic response;
     try {
-      response = await apiService.get(
-        endPoint: ApiConfig.topHeadlines,
-        params: {"country": "us", "category": category ?? ""},
-      );
+      topHeadlineNewsList = await newsRepo.getTopHeadlines(category);
+      syncBookmarks();
 
       topHeadlinesStatus = RequestStatusEnum.loaded;
-      topHeadlineNewsList = (response['articles'] as List<dynamic>)
-          .map((e) => ArticleModel.fromJson(e))
-          .toList();
     } catch (e) {
       topHeadlinesStatus = RequestStatusEnum.error;
-      //todo: data loaded with error
-      topHeadlinesStatus = RequestStatusEnum.loaded;
       errorMessage = e.toString();
     }
-    notifyListeners();
+
+    safeNotify();
   }
 
   Future<void> getEverything() async {
+    everythingStatus = RequestStatusEnum.loading;
     errorMessage = null;
-    notifyListeners();
 
-    dynamic response;
+    safeNotify();
+
     try {
-      response = await apiService.get(endPoint: ApiConfig.everything, params: {"q": "technology"});
+      everythingNewsList = await newsRepo.getEverything();
+
+      syncBookmarks();
 
       everythingStatus = RequestStatusEnum.loaded;
-      everythingNewsList = (response['articles'] as List<dynamic>)
-          .map((e) => ArticleModel.fromJson(e))
-          .toList();
     } catch (e) {
       everythingStatus = RequestStatusEnum.error;
-      //todo: data loaded with error
-      topHeadlinesStatus = RequestStatusEnum.loaded;
       errorMessage = e.toString();
     }
-    notifyListeners();
+
+    safeNotify();
+  }
+
+  Future<void> onSelectedBookMark(ArticleModel article) async {
+    final exists = savedBookMarks.any((e) => e.url == article.url);
+
+    if (exists) {
+      savedBookMarks.removeWhere((e) => e.url == article.url);
+      article.isBookMark = false;
+    } else {
+      savedBookMarks.add(article);
+      article.isBookMark = true;
+    }
+
+    await _saveBookmarks();
+
+    safeNotify();
+  }
+
+  void syncBookmarks() {
+    for (final article in topHeadlineNewsList) {
+      article.isBookMark = savedBookMarks.any((e) => e.url == article.url);
+    }
+
+    for (final article in everythingNewsList) {
+      article.isBookMark = savedBookMarks.any((e) => e.url == article.url);
+    }
+  }
+
+  void loadBookmarks() {
+    final data = PreferenceManager.getData<String>(StorageKey.bookmark);
+
+    if (data == null || data.isEmpty) return;
+
+    try {
+      final decoded = jsonDecode(data) as List;
+
+      savedBookMarks = decoded.map((e) => ArticleModel.fromJson(e)).toList();
+    } catch (e) {
+      savedBookMarks = [];
+    }
+  }
+
+  Future<void> _saveBookmarks() async {
+    final encoded = jsonEncode(savedBookMarks.map((e) => e.toJson()).toList());
+
+    await PreferenceManager.setData<String>(StorageKey.bookmark, encoded);
   }
 
   void onSelectedCategory(String category) {
     selectedCategory = category;
 
-    if (category.toLowerCase() == topNews) {
-      notifyListeners();
-      return;
-    }
+    safeNotify();
 
-    getTopHeadlines(category: category);
-    notifyListeners();
+    if (category.toLowerCase() == topNews) {
+      getTopHeadlines();
+    } else {
+      getTopHeadlines(category: category);
+    }
   }
+
 }

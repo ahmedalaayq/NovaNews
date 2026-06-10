@@ -3,6 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:nova_news/Features/home/presentation/views/widgets/view_all_componenet.dart';
 import 'package:nova_news/core/enums/request_status_enum.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:nova_news/core/widgets/gradient_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:redacted/redacted.dart';
@@ -20,36 +21,36 @@ class TrendingNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 390,
+      height: AppSizes.h(390),
       child: Stack(
         children: [
           NewstBgImage(),
           Positioned.fill(
-            top: 70,
+            top: AppSizes.h(70),
             child: Column(
               children: [
                 NewstAppbar(),
-                const SizedBox(height: 4),
+                SizedBox(height: AppSizes.h(4)),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.w(16)),
                   child: ViewAllComponenet(title: 'Trending News', onTap: () {}),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: AppSizes.h(16)),
                 Consumer<HomeController>(
                   builder: (context, controller, child) {
                     switch (controller.everythingStatus) {
                       case RequestStatusEnum.loading:
                         return SizedBox(
-                          height: 180,
+                          height: AppSizes.h(180),
                           child: SkeletonizerNewsList(),
                         );
                       case RequestStatusEnum.error:
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: EdgeInsets.symmetric(horizontal: AppSizes.w(16.0)),
                           child: Center(
                             child: Text(
                               maxLines: 2,
-                              controller.errorMessage!,
+                              controller.errorMessage ?? "Something went wrong",
                               style: Theme.of(
                                 context,
                               ).textTheme.titleMedium?.copyWith(color: LightAppColors.whiteBgColor),
@@ -57,7 +58,7 @@ class TrendingNews extends StatelessWidget {
                           ),
                         );
                       case RequestStatusEnum.loaded:
-                        return SizedBox(height: 180, child: CustomNewstTrendingList());
+                        return SizedBox(height: AppSizes.h(180), child: CustomNewstTrendingList());
                     }
                   },
                 ),

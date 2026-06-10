@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
 
+import '../utils/app_sizes.dart';
+
 class PasswordStrengthWidget extends StatelessWidget {
   final String password;
 
@@ -52,9 +54,9 @@ class PasswordStrengthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      padding: const EdgeInsets.all(16),
+      padding:  EdgeInsets.all(AppSizes.w(16)),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(AppSizes.r(18)),
         color: strengthColor.withValues(alpha: 0.08),
         border: Border.all(
           color: strengthColor.withValues(alpha: 0.3),
@@ -68,17 +70,17 @@ class PasswordStrengthWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(AppSizes.r(100)),
                   child: LinearProgressIndicator(
                     value: strength / 5,
-                    minHeight: 8,
+                    minHeight: AppSizes.h(8),
                     backgroundColor: Colors.grey.shade300,
                     valueColor: AlwaysStoppedAnimation(strengthColor),
                   ),
                 ),
               ),
 
-              const SizedBox(width: 12),
+               SizedBox(width: AppSizes.w(12)),
 
               Text(
                 strengthText,
@@ -123,25 +125,25 @@ class PasswordStrengthWidget extends StatelessWidget {
     required bool isValid,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding:  EdgeInsets.only(bottom: AppSizes.h(10)),
       child: Row(
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            width: 20,
-            height: 20,
+            width: AppSizes.w(20),
+            height: AppSizes.h(20),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isValid ? Colors.green : Colors.grey.shade400,
             ),
             child: Icon(
               isValid ? Icons.check : Icons.close,
-              size: 14,
+              size: AppSizes.r(14),
               color: Colors.white,
             ),
           ),
 
-          const SizedBox(width: 12),
+           SizedBox(width: AppSizes.w(12)),
 
           Text(title),
         ],

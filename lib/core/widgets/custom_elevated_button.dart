@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/app_sizes.dart';
+
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
@@ -8,7 +10,7 @@ class CustomElevatedButton extends StatelessWidget {
     required this.buttonText,
     this.child,
   });
-  final VoidCallback onPressed;
+  final void Function()? onPressed;
   final Size? size;
   final String buttonText;
   final Widget? child;
@@ -18,7 +20,7 @@ class CustomElevatedButton extends StatelessWidget {
     final Size infiniteSize = MediaQuery.sizeOf(context);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(infiniteSize.width, 48),
+        fixedSize: Size(infiniteSize.width, AppSizes.h(48)),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),

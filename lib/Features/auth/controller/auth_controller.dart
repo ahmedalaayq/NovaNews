@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/core/datasource/local/preference_manager.dart';
 import 'package:nova_news/core/datasource/local/storage_key.dart';
+import 'package:nova_news/core/mixins/safe_notify_mixin.dart';
 import 'package:nova_news/core/router/app_routes.dart';
 
-class AuthController with ChangeNotifier {
+class AuthController with ChangeNotifier, SafeNotifyMixin {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
+  late TextEditingController usernameController;
 
+  late FocusNode usernameFocus;
   late FocusNode emailFocus;
   late FocusNode passwordFocus;
   late FocusNode confirmPasswordFocus;
@@ -22,7 +25,9 @@ class AuthController with ChangeNotifier {
     emailController = TextEditingController(text: savedEmail);
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    usernameController = TextEditingController();
 
+    usernameFocus = FocusNode();
     emailFocus = FocusNode();
     passwordFocus = FocusNode();
     confirmPasswordFocus = FocusNode();
@@ -33,28 +38,24 @@ class AuthController with ChangeNotifier {
 
   Future<void> onSignIn(BuildContext context) async {
     errorMessage = null;
-    notifyListeners();
+    safeNotify();
 
     if (!(formKey.currentState?.validate() ?? false)) {
       autovalidateMode = AutovalidateMode.always;
-      notifyListeners();
+      safeNotify();
       return;
     }
 
     FocusScope.of(context).unfocus();
 
     isLoading = true;
-    notifyListeners();
+    safeNotify();
 
     await Future.delayed(const Duration(seconds: 2));
 
-    final retrievedEmail = PreferenceManager.getData<String>(
-      StorageKey.savedEmail,
-    );
+    final retrievedEmail = PreferenceManager.getData<String>(StorageKey.savedEmail);
 
-    final retrievedPassword = PreferenceManager.getData<String>(
-      StorageKey.savedPassword,
-    );
+    final retrievedPassword = PreferenceManager.getData<String>(StorageKey.savedPassword);
 
     final enteredEmail = emailController.text.trim();
 
@@ -67,7 +68,7 @@ class AuthController with ChangeNotifier {
       errorMessage = 'Email or password is incorrect';
 
       isLoading = false;
-      notifyListeners();
+      safeNotify();
 
       return;
     }
@@ -75,74 +76,55 @@ class AuthController with ChangeNotifier {
     isLoading = false;
     clearState();
 
-    notifyListeners();
+    safeNotify();
 
-    await PreferenceManager.setData<bool>(
-      StorageKey.isLoggedIn,
-      true,
-    );
+    await PreferenceManager.setData<bool>(StorageKey.isLoggedIn, true);
 
     if (!context.mounted) return;
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      AppRoutes.mainView,
-      (route) => false,
-    );
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.mainView, (route) => false);
   }
 
   Future<void> onSignUp(BuildContext context) async {
     errorMessage = null;
-    notifyListeners();
+    safeNotify();
 
     if (!(formKey.currentState?.validate() ?? false)) {
       autovalidateMode = AutovalidateMode.always;
-      notifyListeners();
+      safeNotify();
       return;
     }
 
     FocusScope.of(context).unfocus();
 
     isLoading = true;
-    notifyListeners();
+    safeNotify();
 
     await Future.delayed(const Duration(seconds: 2));
 
-    final savedEmail = PreferenceManager.getData<String>(
-      StorageKey.savedEmail,
-    );
+    final savedEmail = PreferenceManager.getData<String>(StorageKey.savedEmail);
 
-    if (savedEmail != null &&
-        savedEmail == emailController.text.trim()) {
+    if (savedEmail != null && savedEmail == emailController.text.trim()) {
       errorMessage = 'Email already exists';
 
       isLoading = false;
-      notifyListeners();
+      safeNotify();
 
       return;
     }
 
-    await PreferenceManager.setData<String>(
-      StorageKey.savedEmail,
-      emailController.text.trim(),
-    );
+    await PreferenceManager.setData<String>(StorageKey.savedEmail, emailController.text.trim());
     await PreferenceManager.setData<String>(
       StorageKey.savedPassword,
       passwordController.text.trim(),
     );
+    await PreferenceManager.setData<String>(StorageKey.username, usernameController.text.trim());
 
     isLoading = false;
     clearState();
-    await PreferenceManager.setData<bool>(
-      StorageKey.isLoggedIn,
-      true,
-    );
+    await PreferenceManager.setData<bool>(StorageKey.isLoggedIn, true);
     if (!context.mounted) return;
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      AppRoutes.mainView,
-      (route) => false,
-    );
-    notifyListeners();
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.mainView, (route) => false);
+    safeNotify();
   }
 
   String? validateConfirmPassword(String? value) {
@@ -181,13 +163,10 @@ class AuthController with ChangeNotifier {
 
     autovalidateMode = AutovalidateMode.onUserInteraction;
 
-    notifyListeners();
+    safeNotify();
   }
 
   Future<void> _onSavedEmail() async {
-    await PreferenceManager.setData<String>(
-      StorageKey.savedEmail,
-      emailController.text.trim(),
-    );
+    await PreferenceManager.setData<String>(StorageKey.savedEmail, emailController.text.trim());
   }
 }

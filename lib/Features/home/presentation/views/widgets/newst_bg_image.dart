@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:nova_news/core/utils/assets.dart';
 
 class NewstBgImage extends StatelessWidget {
@@ -7,8 +8,8 @@ class NewstBgImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      width: 473,
-      height: 242,
+      width: AppSizes.w(473),
+      height: AppSizes.h(242),
       fit: .cover,
       AppAssets.assetsImagesNewsBg,
     );

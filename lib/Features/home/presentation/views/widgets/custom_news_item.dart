@@ -2,16 +2,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nova_news/Features/home/controller/home_controller.dart';
 import 'package:nova_news/Features/home/models/article_model.dart';
 import 'package:nova_news/core/extension/shared_extension.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:nova_news/core/utils/assets.dart';
 import 'package:nova_news/core/widgets/custom_cached_network_image.dart';
+import 'package:nova_news/core/widgets/custom_svg_picture.dart';
+import 'package:provider/provider.dart';
 
 class CustomNewsItem extends StatelessWidget {
-  const CustomNewsItem({super.key, required this.model});
+  const CustomNewsItem({super.key, required this.model, required this.index});
 
   final ArticleModel model;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -19,27 +24,34 @@ class CustomNewsItem extends StatelessWidget {
     const placeholderNetworkImage =
         'https://aideplus.com/wp-content/uploads/2017/09/image_large.png';
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppSizes.w(16)),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSizes.r(8)),
             child: CustomCachedNetworkImage(
+              width: AppSizes.w(150),
+              height: AppSizes.h(80),
               fit: .cover,
               imageUrl: model.urlToImage ?? placeholderNetworkImage,
             ),
           ),
 
-          const SizedBox(width: 8),
+          SizedBox(width: AppSizes.w(8)),
 
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: [
-                Text(model.title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis),
+                Text(
+                  style: TextStyle(fontSize: AppSizes.sp(14), fontWeight: .w400),
+                  model.title ?? "",
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
 
-                const SizedBox(height: 8),
+                SizedBox(height: AppSizes.h(8)),
 
                 Row(
                   mainAxisAlignment: .spaceBetween,
@@ -47,28 +59,49 @@ class CustomNewsItem extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          radius: 15,
+                          radius: AppSizes.r(12),
                           backgroundImage: NetworkImage(
                             model.urlToImage ?? placeholderNetworkImage,
                           ),
                         ),
 
-                        const SizedBox(width: 4),
+                        SizedBox(width: AppSizes.w(4)),
 
-                        Text(
-                          author.substring(0, min(author.length, 10)),
-                          overflow: TextOverflow.ellipsis,
+                        FittedBox(
+                          child: Text(
+                            style: TextStyle(
+                              fontSize: AppSizes.sp(12),
+                              fontWeight: FontWeight.w400,
+                            ),
+                            author.substring(0, min(author.length, 10)),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          model.publishedAt.formatDate(),
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12),
+                        SizedBox(width: AppSizes.w(8)),
+                        FittedBox(
+                          child: Text(
+                            model.publishedAt.formatDate(),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(fontSize: AppSizes.sp(12)),
+                          ),
                         ),
                       ],
                     ),
-                    SvgPicture.asset(
-                      AppAssets.assetsImagesBookMark,
-                      colorFilter: ColorFilter.mode(LightAppColors.secondaryColor, .srcIn),
+                    GestureDetector(
+                      onTap: () {
+                        context.read<HomeController>().onSelectedBookMark(model);
+                      },
+
+                      child: CustomSvgPicture.withColor(
+                        path: AppAssets.assetsImagesBookMark,
+                        width: AppSizes.w(20),
+                        height: AppSizes.h(20),
+                        color: (model.isBookMark == true)
+                            ? LightAppColors.primaryColor
+                            : LightAppColors.secondaryColor,
+                      ),
                     ),
                   ],
                 ),

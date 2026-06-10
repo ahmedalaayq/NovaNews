@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:nova_news/Features/auth/controller/auth_controller.dart';
+import 'package:nova_news/core/extension/shared_extension.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:nova_news/core/utils/assets.dart';
 import 'package:nova_news/core/utils/utils.dart';
 import 'package:nova_news/core/widgets/custom_elevated_button.dart';
@@ -18,66 +20,68 @@ class RegisterForm extends StatelessWidget {
     final infiniteSize = MediaQuery.sizeOf(context);
 
     final controller = context.watch<AuthController>();
-    return SafeArea(
+    return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 100,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: AppSizes.w(20),),
         child: Form(
           key: controller.formKey,
           autovalidateMode: controller.autovalidateMode,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 40),
+              SizedBox(height: AppSizes.h(40)),
 
-              Center(
-                child: Image.asset(
-                  AppAssets.assetsImagesLogo,
-                  height: 45,
-                ),
+              Center(child: Image.asset(AppAssets.assetsImagesLogo, height: AppSizes.h(45))),
+
+              SizedBox(height: AppSizes.h(32)),
+
+              Text('Welcome to Nova News', style: Theme.of(context).textTheme.titleLarge),
+
+              SizedBox(height: AppSizes.h(24)),
+
+              Text('Username', style: Theme.of(context).textTheme.bodyLarge),
+
+              SizedBox(height: AppSizes.h(8)),
+
+              SharedTextFormField(
+                keyboardType: .name,
+                focusNode: controller.usernameFocus,
+                controller: controller.usernameController,
+                hintText: 'ahmedalaayq',
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'username is required'.capitalizeEachWord();
+                  }
+                },
+                textInputAction: .next,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(controller.passwordFocus);
+                },
               ),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 16),
 
-              Text(
-                'Welcome to Nova News',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+              Text('Email', style: Theme.of(context).textTheme.bodyLarge),
 
-              const SizedBox(height: 24),
-
-              Text(
-                'Email',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-
-              const SizedBox(height: 8),
+              SizedBox(height: AppSizes.h(8)),
 
               SharedTextFormField(
                 keyboardType: .emailAddress,
                 focusNode: controller.emailFocus,
                 controller: controller.emailController,
                 hintText: 'ahmed@gmail.com',
-                validator: (value) =>
-                    Utils.emailFieldValidator(value),
+                validator: (value) => Utils.emailFieldValidator(value),
                 textInputAction: .next,
                 onFieldSubmitted: (_) {
-                  FocusScope.of(
-                    context,
-                  ).requestFocus(controller.passwordFocus);
+                  FocusScope.of(context).requestFocus(controller.passwordFocus);
                 },
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
-              Text(
-                'Password',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              Text('Password', style: Theme.of(context).textTheme.bodyLarge),
 
-              const SizedBox(height: 8),
+              SizedBox(height: AppSizes.h(8)),
 
               SharedTextFormField(
                 isPassword: true,
@@ -88,20 +92,15 @@ class RegisterForm extends StatelessWidget {
                 validator: (value) => Utils.passwordValidator(value),
                 textInputAction: .next,
                 onFieldSubmitted: (_) {
-                  FocusScope.of(
-                    context,
-                  ).requestFocus(controller.confirmPasswordFocus);
+                  FocusScope.of(context).requestFocus(controller.confirmPasswordFocus);
                 },
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: AppSizes.h(16)),
 
-              Text(
-                'Confirm Password',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              Text('Confirm Password', style: Theme.of(context).textTheme.bodyLarge),
 
-              const SizedBox(height: 8),
+              SizedBox(height: AppSizes.h(8)),
 
               SharedTextFormField(
                 isPassword: true,
@@ -109,15 +108,14 @@ class RegisterForm extends StatelessWidget {
                 focusNode: controller.confirmPasswordFocus,
                 controller: controller.confirmPasswordController,
                 hintText: '*************',
-                validator: (value) =>
-                    controller.validateConfirmPassword(value),
+                validator: (value) => controller.validateConfirmPassword(value),
                 textInputAction: .done,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).unfocus();
                   controller.onSignUp(context);
                 },
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: AppSizes.h(14)),
 
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: controller.passwordController,
@@ -128,7 +126,7 @@ class RegisterForm extends StatelessWidget {
 
                   return Column(
                     children: [
-                      const SizedBox(height: 14),
+                      SizedBox(height: AppSizes.h(14)),
 
                       PasswordStrengthWidget(password: value.text),
                     ],
@@ -136,7 +134,7 @@ class RegisterForm extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: AppSizes.h(24)),
               CustomElevatedButton(
                 onPressed: () {
                   controller.onSignUp(context);
@@ -145,12 +143,12 @@ class RegisterForm extends StatelessWidget {
                 child: controller.isLoading
                     ? LoadingAnimationWidget.staggeredDotsWave(
                         color: LightAppColors.whiteBgColor,
-                        size: 20,
+                        size: AppSizes.r(20),
                       )
                     : Text('Sign Up'),
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: AppSizes.h(24)),
 
               Center(
                 child: Text.rich(
@@ -162,11 +160,10 @@ class RegisterForm extends StatelessWidget {
                       ),
                       TextSpan(
                         text: 'Sign In',
-                        style: Theme.of(context).textTheme.bodyMedium
-                            ?.copyWith(
-                              color: LightAppColors.primaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: LightAppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.pop(context);
@@ -176,12 +173,13 @@ class RegisterForm extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: AppSizes.h(24)),
               Center(
                 child: Text(
                   controller.errorMessage ?? "",
-                  style: Theme.of(context).textTheme.titleMedium
-                      ?.copyWith(color: LightAppColors.primaryColor),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(color: LightAppColors.primaryColor),
                 ),
               ),
             ],

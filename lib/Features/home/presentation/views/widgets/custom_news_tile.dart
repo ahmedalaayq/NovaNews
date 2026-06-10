@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:nova_news/core/datasource/local/preference_manager.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 
 import '../../../models/article_model.dart';
 
@@ -21,26 +22,26 @@ class _CustomNewsTileState extends State<CustomNewsTile> {
     final imageUrl = widget.item.urlToImage;
 
     return Container(
-      margin: .symmetric(vertical: 12),
-      padding: .all(8),
+      margin: .symmetric(vertical: AppSizes.h(12)),
+      padding: .all(AppSizes.w(8)),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: .circular(8),
+        borderRadius: .circular(AppSizes.r(8)),
       ),
       child: Row(
         children: [
           imageUrl != null && imageUrl.isNotEmpty
               ? ClipRRect(
-                  borderRadius: .circular(4),
+                  borderRadius: .circular(AppSizes.r(4)),
                   child: Image.network(
                     imageUrl,
                     fit: .cover,
-                    width: 80,
-                    height: 80,
+                    width: AppSizes.w(80),
+                    height: AppSizes.h(80),
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        width: 80,
-                        height: 80,
+                        width: AppSizes.w(80),
+                        height: AppSizes.h(80),
                         color: Theme.of(context).primaryColor,
                         child: Icon(Icons.broken_image),
                       );
@@ -48,8 +49,8 @@ class _CustomNewsTileState extends State<CustomNewsTile> {
                   ),
                 )
               : Container(
-                  width: 80,
-                  height: 80,
+            width: AppSizes.w(80),
+            height: AppSizes.h(80),
                   color: Theme.of(context).primaryColor,
                   child: Icon(Icons.broken_image),
                 ),
@@ -65,7 +66,7 @@ class _CustomNewsTileState extends State<CustomNewsTile> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: LightAppColors.primaryColor,
-                    fontSize: 16,
+                    fontSize: AppSizes.sp(16),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -76,13 +77,13 @@ class _CustomNewsTileState extends State<CustomNewsTile> {
                   widget.item.title ?? "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style:  TextStyle(
+                    fontSize: AppSizes.sp(16),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                SizedBox(height: AppSizes.h(8)),
                 Row(
                   children: [
                     Expanded(

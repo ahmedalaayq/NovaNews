@@ -1,6 +1,8 @@
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'source_model.dart';
 
-class ArticleModel {
+@HiveType(typeId: 0)
+class ArticleModel extends HiveObject {
   ArticleModel({
     required this.source,
     required this.author,
@@ -10,16 +12,27 @@ class ArticleModel {
     required this.urlToImage,
     required this.publishedAt,
     required this.content,
+    this.isBookMark = false,
   });
 
+  @HiveField(0)
   final Source source;
+  @HiveField(1)
   final String? author;
+  @HiveField(2)
   final String? title;
+  @HiveField(3)
   final String? description;
+  @HiveField(4)
   final String url;
+  @HiveField(5)
   final String? urlToImage;
+  @HiveField(6)
   final DateTime publishedAt;
+  @HiveField(7)
   final String? content;
+  @HiveField(8)
+  bool isBookMark;
 
   Map<String, dynamic> toJson() {
     return {
@@ -48,11 +61,10 @@ class ArticleModel {
 
       urlToImage: json['urlToImage']?.toString(),
 
-      publishedAt:
-          DateTime.tryParse(json['publishedAt']?.toString() ?? "") ??
-          DateTime.now(),
+      publishedAt: DateTime.tryParse(json['publishedAt']?.toString() ?? "") ?? DateTime.now(),
 
       content: json['content']?.toString(),
+      isBookMark: false,
     );
   }
 }

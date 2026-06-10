@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 
 class CustomTileText extends StatelessWidget {
   const CustomTileText({super.key, required this.text, this.style});
@@ -14,7 +15,7 @@ class CustomTileText extends StatelessWidget {
           style ??
           Theme.of(context).textTheme.titleMedium?.copyWith(
             color: LightAppColors.whiteBgColor,
-            fontSize: 16,
+            fontSize: AppSizes.sp(16),
             fontWeight: .bold,
           ),
     );

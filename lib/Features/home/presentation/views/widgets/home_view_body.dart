@@ -8,6 +8,7 @@ import 'package:nova_news/Features/home/presentation/views/widgets/view_all_comp
 import 'package:nova_news/core/enums/request_status_enum.dart';
 import 'package:nova_news/core/extension/shared_extension.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:provider/provider.dart';
 import '../category_view.dart';
 
@@ -18,117 +19,113 @@ class HomeViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeController>(
       builder: (context, controller, child) {
-        return CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  TrendingNews(),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ViewAllComponenet(
-                      title: 'Categories',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChangeNotifierProvider.value(
-                              value: controller,
-                              child: CategoryView(),
+        return RefreshIndicator(
+          color: LightAppColors.primaryColor,
+          onRefresh: () async {
+            await controller.getTopHeadlines();
+            await controller.getEverything();
+          },
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const TrendingNews(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ViewAllComponenet(
+                        title: 'Categories',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChangeNotifierProvider.value(
+                                value: controller,
+                                child: const CategoryView(),
+                              ),
                             ),
+                          );
+                        },
+                        color: const Color(0xFF141414),
+                      ),
+                    ),
+                    SizedBox(height: AppSizes.h(12)),
+                    Selector<HomeController, String>(
+                      selector: (_, ctrl) => ctrl.selectedCategory,
+                      builder: (context, selectedCategory, child) {
+                        return SizedBox(
+                          height: AppSizes.h(32),
+                          child: ListView.separated(
+                            padding: EdgeInsets.symmetric(horizontal: AppSizes.w(12)),
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: HomeController.categories.length,
+                            separatorBuilder: (_, _) => SizedBox(width: AppSizes.w(12)),
+                            itemBuilder: (context, index) {
+                              final category = HomeController.categories[index];
+                              final isSelected = category == selectedCategory;
+                              return GestureDetector(
+                                onTap: () => controller.onSelectedCategory(category),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      category.capitalizeEachWord(),
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                                            color: isSelected
+                                                ? LightAppColors.primaryColor
+                                                : LightAppColors.secondaryColor,
+                                          ),
+                                    ),
+                                    SizedBox(height: AppSizes.h(5)),
+                                    AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      height: AppSizes.h(2),
+                                      width: AppSizes.w(50),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? LightAppColors.primaryColor
+                                            : Colors.transparent,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         );
                       },
-                      color: const Color(0xFF141414),
                     ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  Selector<HomeController, String>(
-                    selector: (_, c) => c.selectedCategory,
-
-                    builder: (context, selectedCategory, child) {
-                      return SizedBox(
-                        height: 32,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-
-                          itemCount: HomeController.categories.length,
-
-                          separatorBuilder: (_, __) => const SizedBox(width: 12),
-
-                          itemBuilder: (context, index) {
-                            final category = HomeController.categories[index];
-
-                            final isSelected = category == selectedCategory;
-
-                            return GestureDetector(
-                              onTap: () {
-                                controller.onSelectedCategory(category);
-                              },
-
-                              child: Column(
-                                children: [
-                                  Text(
-                                    category.capitalizeEachWord(),
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-
-                                      color: isSelected
-                                          ? LightAppColors.primaryColor
-                                          : LightAppColors.secondaryColor,
-                                    ),
-                                  ),
-
-                                  const SizedBox(height: 5),
-
-                                  AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    height: 2,
-                                    width: 50,
-
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? LightAppColors.primaryColor
-                                          : Colors.transparent,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-
-            if (controller.topHeadlinesStatus == RequestStatusEnum.loading)
-              SliverToBoxAdapter(child: ShimmerNewsList()),
-
-            if (controller.topHeadlinesStatus == RequestStatusEnum.error ||
-                controller.topHeadlineNewsList.isEmpty)
-              SliverFillRemaining(hasScrollBody: false, child: CustomNewsErrorStateItem()),
-
-            if (controller.topHeadlinesStatus == RequestStatusEnum.loaded)
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: controller.topHeadlineNewsList.length,
-
-                  (context, index) {
-                    final model = controller.topHeadlineNewsList[index];
-                    return CustomNewsItem(model: model);
-                  },
+                  ],
                 ),
               ),
-          ],
+              Consumer<HomeController>(
+                builder: (context, value, _) {
+                  switch (value.topHeadlinesStatus) {
+                    case RequestStatusEnum.loading:
+                      return const SliverToBoxAdapter(child: ShimmerNewsList());
+                    case RequestStatusEnum.error:
+                      return const SliverFillRemaining(child: CustomNewsErrorStateItem());
+                    case RequestStatusEnum.loaded:
+                      if (value.topHeadlineNewsList.isEmpty) {
+                        return const SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: CustomNewsErrorStateItem(),
+                        );
+                      }
+                      return SliverList.builder(
+                        itemCount: value.topHeadlineNewsList.length,
+                        itemBuilder: (context, index) {
+                          final model = value.topHeadlineNewsList[index];
+                          return CustomNewsItem(model: model, index: index);
+                        },
+                      );
+                  }
+                },
+              ),
+            ],
+          ),
         );
       },
     );

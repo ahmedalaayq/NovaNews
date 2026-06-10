@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/Features/auth/presentation/views/widgets/register_form.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:nova_news/core/utils/assets.dart';
 
 class RegisterViewBody extends StatelessWidget {
@@ -18,7 +19,7 @@ class RegisterViewBody extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(AppSizes.w(16.0)),
         child: RegisterForm(),
       ),
     );

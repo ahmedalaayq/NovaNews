@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerNewsList extends StatelessWidget {
@@ -13,7 +14,7 @@ class ShimmerNewsList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, index) {
         return Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppSizes.w(16)),
           child: Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
             highlightColor: Colors.grey.shade100,
@@ -21,29 +22,29 @@ class ShimmerNewsList extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 122,
-                  height: 70,
+                  width: AppSizes.w(122),
+                  height: AppSizes.h(70),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppSizes.r(8)),
                   ),
                 ),
 
-                const SizedBox(width: 10),
+                 SizedBox(width: AppSizes.w(10)),
 
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(width: double.infinity, height: 16, color: Colors.white),
+                      Container(width: double.infinity, height: AppSizes.h(16), color: Colors.white),
 
-                      const SizedBox(height: 8),
+                      SizedBox(height: AppSizes.h(8)),
 
-                      Container(width: 150, height: 16, color: Colors.white),
+                      Container(width: AppSizes.w(150), height: AppSizes.h(16), color: Colors.white),
 
-                      const SizedBox(height: 12),
+                       SizedBox(height: AppSizes.h(12)),
 
-                      Container(width: 80, height: 12, color: Colors.white),
+                      Container(width: AppSizes.w(80), height: AppSizes.h(12), color: Colors.white),
                     ],
                   ),
                 ),

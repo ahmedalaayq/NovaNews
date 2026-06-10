@@ -4,6 +4,7 @@ import 'package:nova_news/Features/home/presentation/views/widgets/custom_news_i
 import 'package:nova_news/core/enums/request_status_enum.dart';
 import 'package:nova_news/core/extension/shared_extension.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/home_controller.dart';
@@ -33,15 +34,15 @@ class CategoryView extends StatelessWidget {
 
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 32,
+                  height: AppSizes.h(32),
 
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding:  EdgeInsets.symmetric(horizontal: AppSizes.w(12)),
 
                     itemCount: HomeController.categories.length,
 
-                    separatorBuilder: (_, __) => const SizedBox(width: 12),
+                    separatorBuilder: (_, __) => SizedBox(width: AppSizes.w(12)),
 
                     itemBuilder: (context, index) {
                       final category = HomeController.categories[index];
@@ -67,13 +68,13 @@ class CategoryView extends StatelessWidget {
                               ),
                             ),
 
-                            const SizedBox(height: 5),
+                             SizedBox(height: AppSizes.h(5)),
 
                             AnimatedContainer(
                               duration: const Duration(milliseconds: 300),
 
-                              width: 50,
-                              height: 2,
+                              width: AppSizes.w(50),
+                              height: AppSizes.h(2),
 
                               color: isSelected ? LightAppColors.primaryColor : Colors.transparent,
                             ),
@@ -100,7 +101,10 @@ class CategoryView extends StatelessWidget {
               if (controller.topHeadlinesStatus == RequestStatusEnum.loaded)
                 SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                    return CustomNewsItem(model: controller.topHeadlineNewsList[index]);
+                    return CustomNewsItem(
+                      model: controller.topHeadlineNewsList[index],
+                      index: index,
+                    );
                   }, childCount: controller.topHeadlineNewsList.length),
                 ),
             ],

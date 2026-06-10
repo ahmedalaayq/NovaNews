@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 
 class SkeletonizerNewsList extends StatelessWidget {
   const SkeletonizerNewsList({
@@ -9,27 +10,27 @@ class SkeletonizerNewsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding:  EdgeInsets.symmetric(horizontal: AppSizes.w(16)),
       scrollDirection: Axis.horizontal,
       itemCount: 6,
-      separatorBuilder: (_, _) => const SizedBox(width: 12),
+      separatorBuilder: (_, _) =>  SizedBox(width: AppSizes.w(12)),
 
       itemBuilder: (context, index) {
         return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppSizes.r(8)),
 
           child: Stack(
             children: [
-              const DecoratedBox(
+              DecoratedBox(
                 decoration: BoxDecoration(color: Color(0xFFE0E0E0)),
-                child: SizedBox(width: 300, height: 180),
+                child: SizedBox(width: AppSizes.w(300), height: AppSizes.h(180)),
               ),
 
 
               Positioned(
-                left: 12,
-                right: 12,
-                bottom: 12,
+                left: AppSizes.w(12),
+                right: AppSizes.w(12),
+                bottom: AppSizes.h(12),
 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,34 +39,34 @@ class SkeletonizerNewsList extends StatelessWidget {
 
                   children: [
                     Container(
-                      height: 14,
-                      width: 180,
+                      height: AppSizes.h(14),
+                      width: AppSizes.w(180),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(AppSizes.r(4)),
                       ),
                     ),
 
-                    const SizedBox(height: 10),
+                    SizedBox(height: AppSizes.h(10)),
 
                     Row(
                       children: [
-                        const DecoratedBox(
+                        DecoratedBox(
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
                           ),
-                          child: SizedBox(width: 30, height: 30),
+                          child: SizedBox(width: AppSizes.w(30), height: AppSizes.h(30)),
                         ),
 
-                        const SizedBox(width: 8),
+                         SizedBox(width: AppSizes.w(8)),
 
                         DecoratedBox(
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(AppSizes.r(4)),
                           ),
-                          child: SizedBox(height: 10, width: 80),
+                          child: SizedBox(height: AppSizes.h(10), width: AppSizes.w(80)),
                         ),
 
                         const Spacer(),
@@ -73,9 +74,9 @@ class SkeletonizerNewsList extends StatelessWidget {
                         DecoratedBox(
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(AppSizes.r(4)),
                           ),
-                          child: SizedBox(height: 10, width: 60),
+                          child: SizedBox(height: AppSizes.h(10), width: AppSizes.w(60)),
                         ),
                       ],
                     ),

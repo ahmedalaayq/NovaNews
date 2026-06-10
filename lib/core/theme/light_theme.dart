@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nova_news/core/theme/light_app_colors.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
+import 'package:nova_news/core/utils/app_sizes.dart';
 
 ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xFFF6F7F9),
@@ -8,7 +12,7 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xFFF6F7F9),
     titleTextStyle: TextStyle(
-      fontSize: 24,
+      fontSize: AppSizes.sp(24),
       color: Color(0xFF161F1B),
       fontWeight: .w400,
     ),
@@ -34,9 +38,9 @@ ThemeData lightTheme = ThemeData(
     }),
     trackOutlineWidth: .resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
-        return 18;
+        return AppSizes.w(18);
       }
-      return 2;
+      return AppSizes.w(2);
     }),
     thumbIcon: .resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
@@ -53,7 +57,7 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: LightAppColors.primaryColor,
       foregroundColor: Color(0xFFFFFCFC),
       textStyle: TextStyle(
-        fontSize: 16,
+        fontSize: AppSizes.sp(16),
         fontWeight: .w400,
         color: Color(0xFFFFFCFC),
       ),
@@ -64,32 +68,32 @@ ThemeData lightTheme = ThemeData(
 
   textTheme: TextTheme(
     displayLarge: TextStyle(
-      fontSize: 28,
+      fontSize: AppSizes.sp(28),
       color: Color(0xFF141414),
       fontWeight: .w400,
     ),
     displayMedium: TextStyle(
-      fontSize: (24),
+      fontSize: AppSizes.sp(24),
       color: Color(0xFF141414),
       fontWeight: .w400,
     ),
     displaySmall: TextStyle(
-      fontSize: (16),
+      fontSize: AppSizes.sp(16),
       color: Color(0xFF141414),
       fontWeight: .w400,
     ),
     bodyLarge: TextStyle(
-      fontSize: (16),
+      fontSize: AppSizes.sp(16),
       color: Color(0xFF141414),
       fontWeight: .w400,
     ),
     bodyMedium: TextStyle(
-      fontSize: (14),
+      fontSize: AppSizes.sp(14),
       color: Color(0xFF3A4640),
       fontWeight: .w400,
     ),
     titleLarge: TextStyle(
-      fontSize: 20,
+      fontSize: AppSizes.sp(20),
       color: LightAppColors.blackColor,
       fontWeight: .bold,
     ),
@@ -102,7 +106,7 @@ ThemeData lightTheme = ThemeData(
     focusedBorder: _buildFieldBorder(),
     errorBorder: _buildFieldBorder(),
     focusedErrorBorder: _buildFieldBorder(),
-    contentPadding: .all((16)),
+    contentPadding: .all(AppSizes.w(16)),
   ),
   textSelectionTheme: TextSelectionThemeData(
     cursorColor: LightAppColors.primaryColor,
@@ -134,17 +138,17 @@ ThemeData lightTheme = ThemeData(
     labelTextStyle: .resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
         return TextStyle(
-          fontSize: (14),
+          fontSize: AppSizes.sp(14),
           color: LightAppColors.primaryColor,
           fontWeight: .w600,
-          height: 2.0,
+          height: AppSizes.h(2.0),
         );
       } else {
         return TextStyle(
-          fontSize: (14),
+          fontSize: AppSizes.sp(14),
           color: Color(0xFF161F1B),
           fontWeight: .w400,
-          height: 2.0,
+          height: AppSizes.h(2.0),
         );
       }
     }),
@@ -164,10 +168,10 @@ ThemeData lightTheme = ThemeData(
 );
 OutlineInputBorder _buildFieldBorder({Color? color, double? width}) {
   return OutlineInputBorder(
-    borderRadius: .circular(0),
+    borderRadius: .zero,
     borderSide: BorderSide(
       color: color ?? LightAppColors.primaryColor,
-      width: width ?? 1.0,
+      width: width ?? AppSizes.w(1.0),
     ),
   );
 }
